@@ -1,0 +1,126 @@
+html {
+  height: 100vh;
+}
+
+body {
+  min-height: 100%;
+  line-height: 1;
+}
+
+.primeraPagina {
+  background-color: #e06148;
+  transition: background-color 400ms linear;
+}
+
+.saberMas {
+  height: 100vh;
+  background-color: rgb(255, 255, 255);
+}
+
+.contenedorSaberMas {
+  max-width: 40%;
+  min-width: 450px;
+}
+
+.info {
+  height: 30vh;
+  background-color: black;
+}
+
+.contenedorPrincipal {
+  height: 100vh;
+  max-width: 500px;
+  padding: 0;
+}
+
+.dibujoTomate {
+  width: 300px;
+  height: auto;
+}
+
+.header {
+  margin: 0;
+  padding: 0;
+}
+
+h4 {
+  margin: 0;
+}
+
+.config:hover {
+  cursor: pointer;
+}
+
+.barra {
+  height: 3px;
+  background-color: #e97a63;
+}
+
+.mainClock {
+  transition: background-color 1000ms linear;
+  background-color: #e97a63;
+}
+
+.timer {
+  font-size: 8em;
+  /*text-align: center;*/
+}
+
+.botonStart {
+  font-size: 2em;
+}
+
+.pestañas {
+  text-decoration: none;
+  text-align: center;
+  height: 65px;
+}
+
+.sw {
+  height: 100px;
+}
+
+.pestaña {
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-size: 1.3em;
+  display: inline-block;
+  padding: 3px;
+  margin: 3px;
+  text-decoration: none;
+  background-image: linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)),
+    linear-gradient(rgba(192, 192, 192, 0), rgba(192, 192, 192, 0));
+  background-size: 0 3px, auto;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  /*transition: all 0.2s ease-out;*/
+}
+
+.pomAcumulados {
+  text-align: center;
+  font-family: "Yanone Kaffeesatz", sans-serif;
+  font-size: 1.8em;
+}
+
+.botonAgregarTarea,
+.verVideo {
+  font-family: "Baloo Da 2", cursive;
+  font-size: 1.2em;
+}
+
+.pestaña:hover {
+  cursor: pointer;
+}
+
+.itemPar {
+  background-color: rgb(223, 197, 197);
+}
+
+.itemImpar {
+  background-color: rgb(214, 183, 183);
+}
+
+@media (max-width: 600px) {
+  .contenedorPrincipal {
+    max-width: 90%;
+  }
+}

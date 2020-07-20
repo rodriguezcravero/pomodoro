@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+Da+2&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="estilo.css" />
+    <link rel="stylesheet" href="switch.css" />
+    <link rel="stylesheet" href="lista.css" />
+
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+
+    <title>PomodoroTimer!</title>
+  </head>
+  <body>
+    <div class="primeraPagina">
+      <div class="container contenedorPrincipal">
+        <div class="row pt-3 header justify-content-around align-items-center">
+          <h4>PomodoroTimer!</h4>
+          <h4 class="config" data-toggle="modal" data-target="#configuracion">
+            Configuración
+          </h4>
+        </div>
+        <br />
+
+        <!-- BARRA DE PROGRESO -->
+        <div class="progress barra">
+          <div
+            class="progress-bar bg-light"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
+        <!-- style="width: 25%;"
+          aria-valuenow="25" -->
+
+        <br />
+        <div class="row justify-content-center">
+          <div class="col mainClock">
+            <div class="row pestañas justify-content-around align-items-center">
+              <div class="col">
+                <span class="pestaña pomodoroTimer">Pomodoro Timer</span>
+              </div>
+              <div class="col">
+                <span class="pestaña descansoCorto">Descanso corto</span>
+              </div>
+              <div class="col">
+                <span class="pestaña descansoLargo">Descanso Largo</span>
+              </div>
+            </div>
+            <div class="row justify-content-center align-items-center">
+              <div class="timer"><span class="tiempo"></span></div>
+            </div>
+            <div class="row sw justify-content-center align-items-center">
+              <div class="three">
+                <div class="button-wrap">
+                  <div class="button-bg">
+                    <div class="button-out"></div>
+                    <div class="button-in"></div>
+                    <div class="button-switch"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="div pomAcumulados">
+          Pomodoros acumulados: <span class="acumulados"></span>
+        </div>
+        <hr />
+        <!-- Lista de tareas -->
+        <div class="esconder">
+          <div class="list-group">
+            <a
+              href="#"
+              class="list-group-item list-group-item-action text-center botonAgregarTarea"
+              data-toggle="modal"
+              data-target="#agregarTarea"
+              >Agregar una tarea &nbsp <i class="fa fa-plus-circle"></i
+            ></a>
+          </div>
+          <br />
+          <div class="listaDinamica list-group"></div>
+        </div>
+        <div class="videoShow" style="display: none;">
+          <div class="list-group">
+            <a
+              href="#"
+              class="list-group-item list-group-item-action text-center verVideo"
+              >Ver un video random &nbsp <i class="fa fa-youtube-play"></i
+            ></a>
+          </div>
+          <br />
+          <div class="video"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="saberMas">
+      <div class="container text-center contenedorSaberMas">
+        <h1 class="pt-5">¿Qué es un pomodoro?</h1>
+        <img class="dibujoTomate" src="files/tomato.png" alt="" />
+        <div class="listaNumerada">
+          <ol class="gradient-list">
+            <li>Se decide la tarea que se va a realizar.</li>
+            <li>Se programan los pomodoros (lapsos de 25 minutos).</li>
+            <li>
+              Se trabaja de forma concentrada e intensiva hasta que suena la
+              alarma.
+            </li>
+            <li>Se descansa durante 5 minutos.</li>
+            <li>
+              Se inicia de nuevo el proceso. Cuando se alcanzan los cuatro
+              pomodoros, se toma un descanso mas prolongado, de aproximadamente
+              20 minutos.
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="info"></div>
+
+    <!-- Modal AGREGAR TAREA-->
+    <div
+      class="modal fade"
+      id="agregarTarea"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">
+              ¿Qué tenés que hacer?
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- FORM DEL MODAL DE TAREA -->
+            <form>
+              <div class="form-row">
+                <div class="col-9">
+                  <label for="descripcionTarea">Nombre de la tarea</label>
+                  <input
+                    id="descripcionTarea"
+                    type="text"
+                    class="form-control"
+                    maxlength="15"
+                    placeholder="15 caracteres máximo"
+                  />
+                </div>
+                <div class="col">
+                  <label for="numPomodoros">Nº pomodoros</label>
+                  <input
+                    id="numPomodoros"
+                    type="number"
+                    class="form-control"
+                    min="1"
+                    max="9"
+                  />
+                </div>
+              </div>
+            </form>
+            <!-- FINAL DEL FORM DEL MODAL DE TAREA -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-success agregarTarea">
+              Agregar
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary cancelarTarea"
+              data-dismiss="modal"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Configuracion-->
+    <div
+      class="modal fade"
+      id="configuracion"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Configurar el Pomodoro Timer
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label for="rangoPomodoro"
+              >Minutos del Pomodoro: <span class="configPomodoro"></span
+            ></label>
+            <input
+              type="range"
+              class="custom-range"
+              min="5"
+              max="55"
+              step="5"
+              id="rangoPomodoro"
+            />
+
+            <label for="rangoDescansoCorto"
+              >Minutos del descanso corto:
+              <span class="configDescansoCorto"></span
+            ></label>
+            <input
+              type="range"
+              class="custom-range"
+              min="5"
+              max="55"
+              step="5"
+              id="rangoDescansoCorto"
+            />
+
+            <label for="rangoDescansoLargo"
+              >Minutos del descanso largo:
+              <span class="configDescansoLargo"></span
+            ></label>
+            <input
+              type="range"
+              class="custom-range"
+              min="5"
+              max="55"
+              step="5"
+              id="rangoDescansoLargo"
+            />
+          </div>
+          <div class="modal-body text-right">
+            <button type="button" class="btn btn-primary reestablecer">
+              Reestablecer tiempos
+            </button>
+            <button type="button" class="btn btn-danger borrarConteo">
+              Borrar pomodoros acumulados
+            </button>
+          </div>
+
+          <div class="modal-header">
+            <h6 class="modal-title">
+              Elegir tipo de música para los descansos
+            </h6>
+          </div>
+          <div class="modal-body">
+            <div class="form-group form-check">
+              <div class="row justify-content-center text-center">
+                <div class="col rock">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    id="rock"
+                    name="musica"
+                  />
+                  <label class="form-check-label" for="rock">Rock</label>
+                </div>
+                <div class="col electro">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    id="electro"
+                    name="musica"
+                  />
+                  <label class="form-check-label" for="electro"
+                    >Electrónica</label
+                  >
+                </div>
+                <div class="col pop">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    id="pop"
+                    name="musica"
+                  />
+                  <label class="form-check-label" for="pop">Pop</label>
+                </div>
+                <div class="col shuffle">
+                  <input
+                    type="radio"
+                    class="form-check-input"
+                    id="shuffle"
+                    name="musica"
+                  />
+                  <label class="form-check-label" for="shuffle">Shuffle</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-header">
+            <h6 class="modal-title">
+              Agregá tu video de YouTube a la lista de shuffle
+            </h6>
+          </div>
+
+          <div class="modal-body">
+            <!-- FORM DE AGREGAR VIDEO PREFERIDO -->
+            <form>
+              <div class="form-row">
+                <div class="col-9">
+                  <label for="linkYouTube"
+                    >Los últimos 11 caractéres de cualquier link</label
+                  >
+                  <input
+                    id="linkYouTube"
+                    type="text"
+                    class="form-control"
+                    maxlength="11"
+                    placeholder="Ejemplo: fDrTbLXHKu8"
+                  />
+                </div>
+                <div class="col align-self-end">
+                  <button type="button" class="btn btn-light agregarLink">
+                    Agregar
+                  </button>
+                </div>
+              </div>
+            </form>
+            <!-- FINAL DEL FORM DE AGREGAR VIDEO -->
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-success btn-block cerrarConfig"
+              data-dismiss="modal"
+            >
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <audio class="on" src="files/on.wav"></audio>
+    <audio class="off" src="files/off.wav"></audio>
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <script src="app.js"></script>
+  </body>
+</html>
