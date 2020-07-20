@@ -279,6 +279,8 @@ function setearReloj(mins) {
 
 function funcAgregarTarea(e) {
   e.preventDefault();
+  if (numPomodoros.value > 9) numPomodoros.value = 9;
+  if (numPomodoros.value < 0) numPomodoros.value = 1;
   if (descripcionTarea.value != "" && numPomodoros.value != "") {
     let tarea = {
       nombre: descripcionTarea.value,

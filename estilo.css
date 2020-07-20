@@ -120,6 +120,10 @@ h4 {
 }
 
 @media (max-width: 600px) {
+  .primeraPagina,
+  .saberMas {
+    min-height: 130vh;
+  }
   .contenedorPrincipal {
     max-width: 80%;
   }
@@ -146,5 +150,17 @@ h4 {
 
   .config {
     color: rgb(88, 16, 16);
+  }
+
+  #agregarTarea label {
+    line-height: 2;
+  }
+
+  #numPomodoros {
+    width: 100px;
+  }
+
+  #configuracion button {
+    margin: 5px;
   }
 }
