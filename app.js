@@ -415,9 +415,9 @@ function actualizarListaTareas() {
       const div2 = document.createElement("div");
       const div3 = document.createElement("div");
 
-      div1.className = "col-6";
-      div2.className = "col-3 text-left";
-      div3.className = "col-2 text-left";
+      div1.className = "col-6 pt-2";
+      div2.className = "col-3 pt-2";
+      div3.className = "col-2 pt-2";
 
       let h =
         item.tiempo.horas > 9 ? item.tiempo.horas : `0${item.tiempo.horas}`;
@@ -432,7 +432,7 @@ function actualizarListaTareas() {
       div3.appendChild(document.createTextNode(`${h}:${m}`));
 
       const cruz = document.createElement("a");
-      cruz.className = "col-1 delete-item secondary-content";
+      cruz.className = "col-1 delete-item secondary-content pt-1 pl-1";
       cruz.innerHTML = '<i class = "fa fa-remove"></i>';
       cruz.setAttribute("id", item.id);
 
