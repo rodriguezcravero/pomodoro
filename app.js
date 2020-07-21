@@ -30,6 +30,7 @@ let video = document.querySelector(".video");
 let progressBar = document.querySelector(".progress-bar");
 let on = document.querySelector(".on");
 let off = document.querySelector(".off");
+let bongo = document.querySelector(".bongo");
 
 let flagConteo = null;
 let pausa = false;
@@ -155,15 +156,17 @@ function actualizarConteoPomodoros() {
 }
 
 function agregarLinkYouTube() {
-  let link = linkYouTube.value;
-  linkYouTube.value = "";
-  // linkYouTube.placeholder = "Listo! ¿Agregás otro?";
-  if (localStorage.getItem("videosUsuario") == null) {
-    localStorage.setItem("videosUsuario", "[]");
+  if (linkYouTube.value.length == 11) {
+    let link = linkYouTube.value;
+    linkYouTube.value = "";
+    // linkYouTube.placeholder = "Listo! ¿Agregás otro?";
+    if (localStorage.getItem("videosUsuario") == null) {
+      localStorage.setItem("videosUsuario", "[]");
+    }
+    let arr = JSON.parse(localStorage.getItem("videosUsuario"));
+    arr.push(link);
+    localStorage.setItem("videosUsuario", JSON.stringify(arr));
   }
-  let arr = JSON.parse(localStorage.getItem("videosUsuario"));
-  arr.push(link);
-  localStorage.setItem("videosUsuario", JSON.stringify(arr));
 }
 
 function setMusica() {
@@ -515,6 +518,8 @@ function cuentaRegresiva(e) {
           localStorage.setItem("segundo", segundos);
         } else {
           if ((minutos == 0) & (segundos == 0)) {
+            bongo.currentTime = 0;
+            bongo.play();
             if (JSON.parse(localStorage.getItem("pomodoroActivo"))) {
               sumarPomodoro();
               if (JSON.parse(localStorage.getItem("conteoPomodoros")) % 4 != 0)

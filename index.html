@@ -20,9 +20,12 @@
       href="https://fonts.googleapis.com/css2?family=Baloo+Da+2&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;400&family=Monda:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="estilo.css" />
     <link rel="stylesheet" href="switch.css" />
-    <link rel="stylesheet" href="lista.css" />
 
     <link
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -120,29 +123,79 @@
     </div>
 
     <div class="saberMas">
-      <div class="container text-center contenedorSaberMas">
-        <h1 class="pt-5">¿Qué es un pomodoro?</h1>
-        <img class="dibujoTomate" src="files/tomato.png" alt="" />
-        <!-- <div class="listaNumerada">
-          <ol class="gradient-list">
-            <li>Se decide la tarea que se va a realizar.</li>
-            <li>Se programan los pomodoros (lapsos de 25 minutos).</li>
-            <li>
-              Se trabaja de forma concentrada e intensiva hasta que suena la
-              alarma.
-            </li>
-            <li>Se descansa durante 5 minutos.</li>
-            <li>
-              Se inicia de nuevo el proceso. Cuando se alcanzan los cuatro
-              pomodoros, se toma un descanso mas prolongado, de aproximadamente
-              20 minutos.
-            </li>
-          </ol>
-        </div> -->
+      <div class="container contenedorSaberMas">
+        <h2 class="pt-5 mb-5 text-center">¿Qué es la 'técnica pomodoro'?</h2>
+        <div class="row mt-3">
+          <div class="col">
+            <p class="quote-text">
+              La Técnica Pomodoro es un método para mejorar la administración
+              del tiempo dedicado a una actividad. Fue desarrollado por
+              Francesco Cirillo a fines de la década de 1980. Se usa un
+              temporizador para dividir el tiempo en intervalos indivisibles,
+              llamados pomodoros, de 25 minutos de actividad, seguidos de 5
+              minutos de descanso, con pausas más largas cada cuatro pomodoros.
+            </p>
+            <hr />
+            <div class="blog-post-actions">
+              <p class="blog-post-bottom pull-left">
+                Fuente: Wikipedia.org
+              </p>
+              <p class="blog-post-bottom pull-right">
+                <!-- <span class="badge quote-badge"></span> ❤ -->
+              </p>
+            </div>
+          </div>
+          <div class="col text-center">
+            <img class="dibujoTomate" src="files/tomato.png" alt="" />
+          </div>
+        </div>
+
+        <br />
+
+        <div class="alert texto alert-danger" role="alert">
+          Se decide la tarea que se va a realizar.
+        </div>
+
+        <div class="alert texto alert-secondary" role="alert">
+          Se programan los pomodoros (lapsos de 25 minutos).
+        </div>
+
+        <div class="alert texto alert-danger" role="alert">
+          Se trabaja de forma concentrada e intensiva hasta que suena la alarma.
+        </div>
+
+        <div class="alert texto alert-secondary" role="alert">
+          Se descansa durante 5 minutos.
+        </div>
+
+        <div class="alert texto alert-danger" role="alert">
+          Se repite el proceso.
+        </div>
+
+        <div class="alert texto alert-secondary" role="alert">
+          Cada cuatro pomodoros, se toma un descanso mas prolongado.
+        </div>
       </div>
     </div>
 
-    <div class="info"></div>
+    <div class="info">
+      <div
+        class="container text-center mx-auto h-100 d-flex align-items-center"
+      >
+        <h2 class="mx-auto">
+          DEV SOCIAL:
+          <a href="https://www.instagram.com/ignacio.rod">
+            <i class="fa fa-instagram"></i
+          ></a>
+          <a href="https://www.linkedin.com/in/rodriguezcravero/"
+            ><i class="fa fa-linkedin"></i
+          ></a>
+          <a href="https://github.com/rodriguezcravero"
+            ><i class="fa fa-github"></i
+          ></a>
+        </h2>
+      </div>
+    </div>
 
     <!-- Modal AGREGAR TAREA-->
     <div
@@ -382,6 +435,7 @@
 
     <audio class="on" src="files/on.wav"></audio>
     <audio class="off" src="files/off.wav"></audio>
+    <audio class="bongo" src="files/bongo.wav"></audio>
 
     <script
       src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
