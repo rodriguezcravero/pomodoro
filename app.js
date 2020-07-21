@@ -1,8 +1,13 @@
+//DECLARACION DE VARIABLES
+//LAS 3 SOLAPAS
 let pomodoroTimer = document.querySelector(".pomodoroTimer");
 let descansoCorto = document.querySelector(".descansoCorto");
 let descansoLargo = document.querySelector(".descansoLargo");
+//EL TIMER
 let tiempo = document.querySelector(".tiempo");
+//EL INTERRUPTOR
 let start = document.querySelector(".button-wrap");
+//LA CONFIGURACION Y SUS OPCIONES, RANGO, SPANS, BOTONES, ETC
 let configuracion = document.querySelector(".config");
 let rangoPomodoro = document.querySelector("#rangoPomodoro");
 let rangoDescansoCorto = document.querySelector("#rangoDescansoCorto");
@@ -15,53 +20,49 @@ let borrarConteo = document.querySelector(".borrarConteo");
 let musica = document.querySelectorAll("input[type='radio']");
 let agregarLink = document.querySelector(".agregarLink");
 let linkYouTube = document.querySelector("#linkYouTube");
+//MODAL DE AGREGAR TAREA
 let agregarTarea = document.querySelector(".agregarTarea");
 let cancelarTarea = document.querySelector(".cancelarTarea");
 let descripcionTarea = document.querySelector("#descripcionTarea");
 let numPomodoros = document.querySelector("#numPomodoros");
+//LISTA DE TAREAS
 let listGroup = document.querySelector(".list-group");
 let listaTareasDinamica = document.querySelector(".listaDinamica");
 let cerrarConfig = document.querySelector(".cerrarConfig");
-let esconder = document.querySelector(".esconder");
 let acumulados = document.querySelector(".acumulados");
+//DIVS CON TAREAS Y VIDEOS QUE SE ESCONDEN
+let esconder = document.querySelector(".esconder");
 let videoShow = document.querySelector(".videoShow");
 let verVideo = document.querySelector(".verVideo");
 let video = document.querySelector(".video");
+//BARRA DE PROGRESO
 let progressBar = document.querySelector(".progress-bar");
+//SONIDOS
 let on = document.querySelector(".on");
 let off = document.querySelector(".off");
 let bongo = document.querySelector(".bongo");
 
+//VARIABLES GLOBALES
 let flagConteo = null;
 let pausa = false;
 let minutos, segundos;
 
+//FUNCIONES QUE SON LLAMADAS CADA VEZ QUE SE CARGA LA PÁGINA
 document.onload = relojes();
 document.onload = setearReloj(localStorage.getItem("minutoPomodoro"));
 document.onload = actualizarListaTareas();
 document.onload = setMusica();
 
-function relojes() {
-  if (localStorage.getItem("minutoPomodoro") == null)
-    localStorage.setItem("minutoPomodoro", 25);
-  if (localStorage.getItem("minutoDescansoCorto") == null)
-    localStorage.setItem("minutoDescansoCorto", 5);
-  if (localStorage.getItem("minutoDescansoLargo") == null)
-    localStorage.setItem("minutoDescansoLargo", 20);
-  if (localStorage.getItem("conteoPomodoros") == null)
-    localStorage.setItem("conteoPomodoros", 0);
-  localStorage.setItem("pomodoroActivo", true);
-  localStorage.setItem("minutosBarra", localStorage.getItem("minutoPomodoro"));
-  actualizarConteoPomodoros();
-}
-
 /* EVENT LISTENERS */
+
+//DECIDÍ DETENER EL COMPORTAMIENTO DEFAULT DEL EVENTO DE CADA BOTÓN Y COMPONENTE
 
 agregarLink.addEventListener("click", function (event) {
   event.preventDefault();
   agregarLinkYouTube();
 });
 
+//ESTE FOR LE AGREGA UN EVENT LISTENER A CADA RADIO BUTTON DE CONFIG, IMPOSIBLE HACERLO CON UN QUERY SELECTOR ALL
 for (let index = 0; index < musica.length; index++) {
   musica[index].addEventListener("change", function (event) {
     event.preventDefault();
@@ -79,6 +80,7 @@ reestablecer.addEventListener("click", function (event) {
   reestablecerTiempos();
 });
 
+//CADA VEZ QUE SE HACE CLICK EN LA OPCION DE CONFIGURACION, SE ACTUALIZAN LOS RANGOS CON LA MEMORIA LOCAL
 configuracion.addEventListener("click", function (event) {
   event.preventDefault();
   rangoPomodoro.value = localStorage.getItem("minutoPomodoro");
@@ -94,11 +96,13 @@ verVideo.addEventListener("click", function (event) {
   playVideo();
 });
 
+//CADA VEZ QUE SE GUARDAN CAMBIOS EN LA CONFIGURACIÓN, SE VUELVE AL INICIO DEL POMODORO PRINCIPAL
 cerrarConfig.addEventListener("click", function (event) {
   event.preventDefault();
   eventoPomodoro();
 });
 
+//PARA CUANDO SE HACE CLICK EN LA CRUZ
 listaTareasDinamica.addEventListener("click", function (e) {
   borrarTarea(e);
 });
@@ -110,6 +114,7 @@ cancelarTarea.addEventListener("click", function (event) {
   funcCancelarTarea(event);
 });
 
+//CADA VEZ QUE SE CLICKEA UNA SOLAPA, SE ACTIVAN 3 FUNCIONES DISTINTAS DE ACTUALIZACION DE VALORES
 pomodoroTimer.addEventListener("click", function (event) {
   event.preventDefault();
   eventoPomodoro();
@@ -148,13 +153,34 @@ rangoDescansoLargo.addEventListener("input", () => {
   localStorage.setItem("minutoDescansoLargo", rangoDescansoLargo.value);
 });
 
+//////////////////////////////////////////////////////////////////////////////////////////
+
 /* FUNCIONES */
+
+//LA NOMENCLATURA Y LOS NOMBRES DE LAS FUNCIONES SON LO BASTANTE DESCRIPTIVAS
+
+//LA FUNCION RELOJES PRIMERO CHEQUEA SI ESTAN GUARDADAS LAS OPCIONES EN MEMORIA LOCAL, Y DE NO ESTAR, LAS SETEA POR PRIMERA VEZ CON LOS VALORES ESTANDAR. SI ESTAS SE CAMBIAN LUEGO, ESTA FUNCION LAS RESPETA Y NO LAS MODIFICA.
+function relojes() {
+  if (localStorage.getItem("minutoPomodoro") == null)
+    localStorage.setItem("minutoPomodoro", 25);
+  if (localStorage.getItem("minutoDescansoCorto") == null)
+    localStorage.setItem("minutoDescansoCorto", 5);
+  if (localStorage.getItem("minutoDescansoLargo") == null)
+    localStorage.setItem("minutoDescansoLargo", 20);
+  if (localStorage.getItem("conteoPomodoros") == null)
+    localStorage.setItem("conteoPomodoros", 0);
+  //SE SETEA EN TRUE EL POMODORO ACTIVO (EL QUE SE CUENTA), LO MISMO CON LOS MINUTOS DE LA BARRA Y SE ACTUALIZA EL CONTEO DE POMODOROS
+  localStorage.setItem("pomodoroActivo", true);
+  localStorage.setItem("minutosBarra", localStorage.getItem("minutoPomodoro"));
+  actualizarConteoPomodoros();
+}
 
 function actualizarConteoPomodoros() {
   let cant = localStorage.getItem("conteoPomodoros");
   acumulados.innerHTML = cant;
 }
 
+//LOS CODIGOS DE VIDEOS DE YOUTUBE SON, POR AHORA, SI O SI 11 CARACTERES, ENTONCES HAGO UNA VALIDACION PARA EVITAR OTRO TIPO DE LENGTH DE STRING
 function agregarLinkYouTube() {
   if (linkYouTube.value.length == 11) {
     let link = linkYouTube.value;
@@ -169,6 +195,7 @@ function agregarLinkYouTube() {
   }
 }
 
+//SETEAR EL TIPO DE MUSICA, POR DEFECTO, SE GUARDA EN MEMORIA LOCAL LA OPCION DE 'SHUFFLE'
 function setMusica() {
   let id;
   if (localStorage.getItem("musica") == null) {
@@ -210,6 +237,7 @@ function reestablecerTiempos() {
   configDescansoLargo.innerHTML = rangoDescansoLargo.value;
 }
 
+//CADA UNO DE LAS SIGUIENTES 3 FUNCIONES HACE LO MISMO, PERO PARA CADA SOLAPA DE OPCION. CAMBIAR EL COLOR DE FONDO, CON LA RESPECTIVA TRANSICION DE CSS, LUEGO SETEA EL RELOJ CON LOS MINUTOS CORRESPONDIENTES, SETEA EL 100% DE LA BARRA, DETIENE EL RELOJ, MUESTRA O ESCONDE LAS TAREAS O LOS VIDEOS, Y PONE O BORRA EL SUBRAYADO DE CADA SOLAPA.
 function eventoPomodoro() {
   cambiarColorFondo("#e06148", "#e97a63", event);
   setearReloj(localStorage.getItem("minutoPomodoro"));
@@ -267,12 +295,12 @@ function borrarTarea(e) {
 }
 
 function cambiarColorFondo(color1, color2) {
-  // e.preventDefault();
   document.querySelector(".primeraPagina").style.backgroundColor = color1;
   document.querySelector(".mainClock").style.backgroundColor = color2;
   document.querySelector(".barra").style.backgroundColor = color2;
 }
 
+//ESTA FUNCION SERÁ LA QUE GUARDA EN MEMORIA CUÁL DE LOS RELOJES ESTÁ ACTIVO, Y DESDE ESTOS NUMEROS SE HACE EL CONTEO REGRESIVO. PARA EFECTIVAMENTE MOSTRAR EL MINUTO Y SEGUNDO DESCONTADO, PRIMERO SE PONE UN MINUTO MENOS DEL REAL, Y EL SEGUNDO EN 60. ENTONCES, SI ES 25:00, LO PRIMERO SERÁ 24:59 Y ASÍ.
 function setearReloj(mins) {
   localStorage.setItem("segundo", 60);
   localStorage.setItem("minuto", mins - 1);
@@ -280,6 +308,7 @@ function setearReloj(mins) {
   actualizarListaTareas();
 }
 
+//EN PC SE RESPETA LO DEFINIDO EN HTML PARA LA CANTIDAD DE CARACTERES Y VALORES. EN MOBILE NO, POR LO QUE HAY QUE VALIDAR DE OTRA MANERA. SI EN CELULAR PONEN 33214, SE TRANSFORMA A 9, LO MISMO CON VALORES NEGATIVOS Y 1. UNICA VEZ QUE USO JQUERY PARA ESCONDER EL MODAL, SACADO DE BOOTSTRAP
 function funcAgregarTarea(e) {
   e.preventDefault();
   if (numPomodoros.value > 9) numPomodoros.value = 9;
@@ -296,23 +325,28 @@ function funcAgregarTarea(e) {
     borrarModalTareas();
   }
 }
+
 function funcCancelarTarea(e) {
   e.preventDefault();
   borrarModalTareas();
 }
 
+//LA HORA APROXIMADA DEL FIN DE TAREA, PRESENTA VARIOS PROBLEMAS. SIENDO LA PRIMERA TAREA, NO HAY QUE CONTAR LOS MINUTOS DE DESCANSO SI EL POMODORO ES 1 SOLO. ES DECIR, SI SE ESTABLECE UNA TAREA A LAS 15 HORAS QUE DEMANDA UN SOLO POMODORO, ESTA TERMINA 15:25. A PARTIR DEL SEGUNDO POMODORO, SI HAY QUE CONTAR LOS DESCANSOS, SIENDO EL 5 Y EL 9, SUMADOS LOS DESCANSOS LARGOS.
 function calcularTiempoPrimeraTarea(tarea) {
+  //EN EL MOMENTO DE HACER ESTA FUNCION, NO ME DEJÓ AGREGAR CAMPOS DIRECTAMENTE AL OBJETO CREADO, TUVE QUE CREARLOS CON VALORES EN 0 Y DESPUES USARLOS.
   let objeto = {
     horas: "",
     minutos: "",
     mins: "",
     cantPomodoros: "",
   };
+  //LA PRIMERA TAREA USARÁ TIEMPO REAL PARA CALCULAR LA HORA DE FIN, LAS DEMAS, SERÁN A PARTIR DE ESTA PRIMERA.
   let time = new Date();
   objeto.horas = time.getHours();
   objeto.minutos = time.getMinutes();
   objeto.mins = 0;
   objeto.cantPomodoros = tarea.cantPom;
+  //POR CANTIDAD DE POMODOROS ESTABLECIDOS, CALCULO CUANTO TIEMPO LLEVARÁ Y LA HORA DE FIN APROXIMADA
   for (let index = 1; index <= objeto.cantPomodoros; index++) {
     if (index == 1) objeto.mins += parseInt(localStorage.getItem("minuto")) + 1;
     else if (index == 5 || index == 9)
@@ -324,6 +358,7 @@ function calcularTiempoPrimeraTarea(tarea) {
         parseInt(localStorage.getItem("minutoPomodoro")) +
         parseInt(localStorage.getItem("minutoDescansoCorto"));
   }
+  //SEGUN EL TOTAL DE MINUTOS DE POMODOROS, CALCULO LA HORA
   while (objeto.mins > 0) {
     if (objeto.mins > 60) {
       objeto.mins -= 60;
@@ -345,6 +380,7 @@ function calcularTiempoPrimeraTarea(tarea) {
   return tarea;
 }
 
+//LAS DEMAS HORAS APROXIMADAS, SE CALCULAN DE ACUERDO A LA HORA DE LA PRIMERA TAREA, PERO NO SIEMPRE SERÁ EXACTO DE ACUERDO A LOS DESCANSOS. ES UNA HORA APROXIMADA
 function calcularTiempoTarea(tarea, tareaAnterior) {
   let obj = tarea;
   obj.tiempo = { horas: 0, minutos: 0 };
@@ -378,11 +414,13 @@ function calcularTiempoTarea(tarea, tareaAnterior) {
   return obj;
 }
 
+//LA LISTA DE TAREAS SE MUESTRA SOLO SI HAY TAREAS EN MEMORIA LOCAL, SINO SE ESCONDE LA CABECERA.
 function actualizarListaTareas() {
   if (
     localStorage.getItem("tareas") != null &&
     localStorage.getItem("tareas") != "[]"
   ) {
+    //CREO LA CABECERA
     listaTareasDinamica.innerHTML = `
       <a class="list-group-item list-group-item-action">
       <div class="row m-0">
@@ -393,6 +431,7 @@ function actualizarListaTareas() {
       </a>        
     `;
     let nuevaLista = [];
+    //LEO LA LISTA DE TAREAS (CON O SIN LA HORA ESTABLECIDA) Y CALCULO EL TIEMPO APROX DE FIN DE TAREA CADA VEZ QUE SE ACTUALIZA
     let lista = JSON.parse(localStorage.getItem("tareas"));
     for (let index = 0; index < lista.length; index++) {
       if (index == 0) nuevaLista.push(calcularTiempoPrimeraTarea(lista[index]));
@@ -401,8 +440,10 @@ function actualizarListaTareas() {
           calcularTiempoTarea(lista[index], nuevaLista[index - 1])
         );
     }
+    //GUARDO LA LISTA DE TAREAS EN MEMORIA LOCAL, CON LAS HORAS ACTUALIZADAS
     localStorage.setItem("tareas", JSON.stringify(nuevaLista));
     lista = JSON.parse(localStorage.getItem("tareas"));
+    //SEGUN CADA TAREA SEA PAR O IMPAR, LE PONGO UN COLOR DISTINTO A CADA ITEM
     let par = true;
     lista.forEach((item) => {
       par = !par;
@@ -454,7 +495,7 @@ function actualizarListaTareas() {
   }
 }
 
-//Función de guardar en memoria
+//FUNCION DE GUARDAR TAREAS EN MOMERIA LOCAL, DONDE SE PONE CADA NUMERO DE ID SIN PISAR AL OTRO, Y DONDE SE DEFINE UN MAXIMO DE 6 TAREAS POSIBLES
 function guardarTareas(tarea) {
   let listaTareas;
   if (
@@ -498,46 +539,62 @@ function sumarPomodoro() {
   actualizarListaTareas();
 }
 
+//LA FUNCION MAS PRINCIPAL DE TODAS, DONDE SE HACE EL CONTEO REGRESIVO. ES UNA FUNCION CON SETINTERVAL, QUE NO DEJA DE FUNCIONAR SI EL TIEMPO SE PAUSA, POR LO QUE USO UN FLAG DE PAUSA, PERO SI DEJA DE FUNCIONAR SI SE CAMBIAN LOS VALORES O SE CAMBIA DE SOLAPA.
+//ESTA FUNCION SE LLAMA CADA VEZ QUE SE CLICKEA EL INTERRUPTOR
 function cuentaRegresiva(e) {
   e.preventDefault();
+  //SEGUN SE TOCA EL INTERRUPTOR, EL FLAG DE PAUSA CAMBIA
   pausa = !pausa;
+  //REPRODUCCION DE SONIDO
   if (pausa) {
-    on.currentTime = 0; //rebobina el audio a 0
+    on.currentTime = 0; //REBOBINA EL AUDIO A 0, BUENA PRÁCTICA APRENDIDA DE WES BOS
     on.play();
   } else {
     off.currentTime = 0;
     off.play();
   }
+  //IF(!FLAGCONTEO) COMPRUEBA SI EL INTERVALO ESTÁ INACTIVO, Y LO ACTIVA COMO PRIMERA ACCION
   if (!flagConteo) {
     flagConteo = setInterval(() => {
       if (pausa) {
+        //SIEMPRE USO ESTAS VARIABLES SETEADAS EN MEMORIA LOCAL, SON LAS PRINCIPALES
         segundos = localStorage.getItem("segundo");
         minutos = localStorage.getItem("minuto");
+        //MIENTRAS LOS SEGUNDOS SEAN MAYOR A 0, SOLO VOY DESCONTANDO LOS SEGUNDOS Y LISTO
         if (segundos > 0) {
           segundos--;
           localStorage.setItem("segundo", segundos);
         } else {
+          //LA COSA CAMBIA SI LOS SEGUNDOS LLEGAN A 0
+          //EN CASO DE QUE EL MINUTO TAMBIEN, SE ACTIVA EL EVENTO DE FIN DE POMODORO
           if ((minutos == 0) & (segundos == 0)) {
+            //SONIDO DE FIN DE POMODORO
             bongo.currentTime = 0;
             bongo.play();
+            //PUEDO ESTAR EN UN POMODORO DE TAREA O EN UN DESCANSO. EN EL PRIMER CASO, SUMO UN POMODORO ACUMULADO
             if (JSON.parse(localStorage.getItem("pomodoroActivo"))) {
               sumarPomodoro();
+              //CHEQUEO EL CONTEO DE POMODOROS. SI VOY POR EL 4, 8, 12, ETC, DESCANSO LARGO, Y SI NO, DESCANSO CORTO
               if (JSON.parse(localStorage.getItem("conteoPomodoros")) % 4 != 0)
                 eventoDescansoCorto();
               else eventoDescansoLargo();
             } else {
               eventoPomodoro();
             }
+            //PARA CUALQUIER CASO DE FIN DE CONTEO, EL INTERVALO DEL CONTEO REGRESIVO SE DETIENE
             clearInterval(flagConteo);
             return;
           } else {
+            //ESTO EN CASO DE QUE SEGUNDO LLEGUE A 0 PERO LOS MINUTOS NO
             minutos--;
             segundos = 59;
             localStorage.setItem("segundo", segundos);
             localStorage.setItem("minuto", minutos);
           }
         }
+        //CADA SEGUNDO QUE PASA, SE MODIFICA LA BARRA DE PROGRESO
         accionBarra(minutos, segundos);
+        //LO SIGUIENTE ES PARA MOSTRAR EN PANTALLA EL TIEMPO
         let seg = segundos > 9 ? segundos.toString() : `0${segundos}`;
         tiempo.innerHTML = `<span>${minutos}:${seg}</span>`;
         document.title = `${minutos}:${seg} - PomoTimer!`;
@@ -566,6 +623,7 @@ function accionBarra(minutos, segundos) {
   progressBar.style.width = `${x}%`;
 }
 
+//CADA VEZ QUE SE PARA EL RELOJ, SE DETIENE EL INTERVALO
 function pararReloj() {
   if (flagConteo != null) {
     clearInterval(flagConteo);
@@ -577,34 +635,7 @@ function pararReloj() {
   progressBar.style.width = `0%`;
 }
 
-const videosRock = [
-  "ma9I9VBKPiw",
-  "Ijk4j-r7qPA",
-  "8DyziWtkfBw",
-  "0J2QdDbelmY",
-  "F90Cw4l-8NY",
-  "ktvTqknDobU",
-];
-
-const videosPop = [
-  "0k_1kvDh2UA",
-  "hT_nvWreIhg",
-  "CfihYWRWRTQ",
-  "5NV6Rdv1a3I",
-  "YNDVipmJfz8",
-  "GzU8KqOY8YA",
-];
-
-const videosElectro = [
-  "fDrTbLXHKu8",
-  "JRfuAukYTKg",
-  "6Cp6mKbRTQY",
-  "gCYcHz2k5x0",
-  "tpKCqp9CALQ",
-];
-
-// document.onload = playVideo();
-
+//ACA DEPENDE SI ESTÁ MARCADA LA OPCION DE SHUFFLE O NO. SI NO LO ESTA, SOLO SELECCIONO DEL ARREGLO DE GENERO CORRESPONDIENTE, Y SI NO, CONCATENO TODOS, Y HAGO UN RANDOM ENTRE LOS 3 GENEROS Y ENTRE EL PERSONAL DEL USUARIO EN CASO DE HABERLO.
 function playVideo() {
   let arr = [];
   let estilo = localStorage.getItem("musica");
@@ -638,3 +669,34 @@ function randomVideo(arr, num) {
   allowfullscreen
 ></iframe>`;
 }
+
+const videosRock = [
+  "ma9I9VBKPiw",
+  "Ijk4j-r7qPA",
+  "8DyziWtkfBw",
+  "0J2QdDbelmY",
+  "F90Cw4l-8NY",
+  "ktvTqknDobU",
+];
+
+const videosPop = [
+  "0k_1kvDh2UA",
+  "hT_nvWreIhg",
+  "CfihYWRWRTQ",
+  "5NV6Rdv1a3I",
+  "YNDVipmJfz8",
+  "GzU8KqOY8YA",
+];
+
+const videosElectro = [
+  "fDrTbLXHKu8",
+  "JRfuAukYTKg",
+  "6Cp6mKbRTQY",
+  "gCYcHz2k5x0",
+  "tpKCqp9CALQ",
+];
+
+//CUESTIONES PARA UNA REFACTORIZACION
+//CAMBIAR LA MAYORIA DE LOS 'LET' POR 'CONST'
+//REVISAR SI ES NECESARIO AGREGAR UN EVENT.PREVENTDEFAULT() A TODOS LOS COMPONENTES Y BOTONES
+//REVISAR QUE DEJE DE CALCULAR LA HORA APROXIMADA DE FIN PARA CADA TAREA TERMINADA
