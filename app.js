@@ -387,8 +387,8 @@ function actualizarListaTareas() {
       <a class="list-group-item list-group-item-action">
       <div class="row m-0">
       <div class="col-6">Descripción</div>
-      <div class="col-3">Pomodoros</div>
-      <div class="col-3">Hora Fin</div>
+      <div class="col-3">Poms</div>
+      <div class="col-3">Finaliza</div>
       </div>
       </a>        
     `;

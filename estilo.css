@@ -166,8 +166,16 @@ h4 {
   .primeraPagina,
   .saberMas {
     min-height: 130vh;
+  }
+
+  .saberMas {
     margin-bottom: 100px;
   }
+
+  .info h2 {
+    font-size: 1.2em;
+  }
+
   .contenedorPrincipal {
     max-width: 80%;
   }
@@ -175,6 +183,7 @@ h4 {
     max-width: 90%;
     min-width: 90%;
   }
+
   .timer {
     font-size: 5em;
   }
