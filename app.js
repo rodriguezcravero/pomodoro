@@ -239,7 +239,7 @@ function reestablecerTiempos() {
 
 //CADA UNO DE LAS SIGUIENTES 3 FUNCIONES HACE LO MISMO, PERO PARA CADA SOLAPA DE OPCION. CAMBIAR EL COLOR DE FONDO, CON LA RESPECTIVA TRANSICION DE CSS, LUEGO SETEA EL RELOJ CON LOS MINUTOS CORRESPONDIENTES, SETEA EL 100% DE LA BARRA, DETIENE EL RELOJ, MUESTRA O ESCONDE LAS TAREAS O LOS VIDEOS, Y PONE O BORRA EL SUBRAYADO DE CADA SOLAPA.
 function eventoPomodoro() {
-  cambiarColorFondo("#e06148", "#e97a63", event);
+  cambiarColorFondo("#e06148", "#e97a63");
   setearReloj(localStorage.getItem("minutoPomodoro"));
   localStorage.setItem("minutosBarra", localStorage.getItem("minutoPomodoro"));
   pararReloj();
@@ -269,7 +269,7 @@ function eventoDescansoCorto() {
 }
 
 function eventoDescansoLargo() {
-  cambiarColorFondo("#50a170", "#72c492", event);
+  cambiarColorFondo("#50a170", "#72c492");
   setearReloj(localStorage.getItem("minutoDescansoLargo"));
   localStorage.setItem(
     "minutosBarra",
