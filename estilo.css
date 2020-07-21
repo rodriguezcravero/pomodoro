@@ -165,7 +165,7 @@ h4 {
 @media (max-width: 600px) {
   .primeraPagina,
   .saberMas {
-    min-height: 115vh;
+    min-height: 130vh;
   }
 
   .saberMas {
